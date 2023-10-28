@@ -132,3 +132,15 @@ printfinit(void)
   initlock(&pr.lock, "pr");
   pr.locking = 1;
 }
+
+void 
+backtrace(void){
+  printf("backtrace:\n");
+  uint64 fp = r_fp();
+  while (PGROUNDUP(fp) - PGROUNDDOWN(fp) == PGSIZE)
+  {
+    uint64 ra = *(uint64*)(fp - 8); //返回地址是栈指针 - 8
+    printf("%p\n", ra);
+    fp = *(uint64*)(fp - 16);       //上一个栈指针为当前栈指针 - 16
+  }
+}

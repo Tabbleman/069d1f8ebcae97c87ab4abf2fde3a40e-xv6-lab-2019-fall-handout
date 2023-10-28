@@ -6,7 +6,6 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
-
 uint64
 sys_exit(void)
 {
@@ -57,7 +56,6 @@ sys_sleep(void)
 {
   int n;
   uint ticks0;
-
   if(argint(0, &n) < 0)
     return -1;
   acquire(&tickslock);
@@ -70,6 +68,7 @@ sys_sleep(void)
     sleep(&ticks, &tickslock);
   }
   release(&tickslock);
+  backtrace();
   return 0;
 }
 
@@ -94,4 +93,19 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
+}
+
+uint64
+sys_sigalarm(void){
+  if(argint(0, &myproc()->alarm_interval) < 0 ||
+    argaddr(1, (uint64*)&myproc()->alarm_handler) < 0){
+    return -1;
+  }return 0;
+}
+uint64
+sys_sigreturn(void) {
+  printf("in sigreturn\n");
+  memmove(myproc()->trapframe, myproc()->alarm_trapframe, sizeof(struct trapframe));
+  myproc()->is_alarm = 0;
+  return 0;
 }

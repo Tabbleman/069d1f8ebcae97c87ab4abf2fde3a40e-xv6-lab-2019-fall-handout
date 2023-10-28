@@ -1,11 +1,10 @@
 #include "kernel/types.h"
 #include "kernel/stat.h"
 #include "user/user.h"
-
+#include "kernel/riscv.h"
 #include <stdarg.h>
 
 static char digits[] = "0123456789ABCDEF";
-
 static void
 putc(int fd, char c)
 {
