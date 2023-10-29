@@ -40,7 +40,12 @@ usertrap(void)
 
   if((r_sstatus() & SSTATUS_SPP) != 0)
     panic("usertrap: not from user mode");
-
+  
+  //check if system got a page error
+  //reference to https://pdos.csail.mit.edu/6.S081/2020/labs/lazy.html 
+  if((r_scause() == 13 || r_scause() == 15)){
+    printf("Page fault\n");
+  }
   // send interrupts and exceptions to kerneltrap(),
   // since we're now in the kernel.
   w_stvec((uint64)kernelvec);

@@ -24,7 +24,8 @@ void            consputc(int);
 
 // exec.c
 int             exec(char*, char**);
-
+void            vmprint(pagetable_t pagetable);
+void            vmwalk(pagetable_t pagetable, int level);
 // file.c
 struct file*    filealloc(void);
 void            fileclose(struct file*);
