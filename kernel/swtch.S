@@ -7,6 +7,7 @@
 
 .globl swtch
 swtch:
+#               a0 is the old register
         sd ra, 0(a0)
         sd sp, 8(a0)
         sd s0, 16(a0)
@@ -21,7 +22,7 @@ swtch:
         sd s9, 88(a0)
         sd s10, 96(a0)
         sd s11, 104(a0)
-
+#               a1 is the new register 
         ld ra, 0(a1)
         ld sp, 8(a1)
         ld s0, 16(a1)
