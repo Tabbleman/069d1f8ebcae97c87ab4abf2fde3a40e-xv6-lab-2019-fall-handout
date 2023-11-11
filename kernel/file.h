@@ -26,7 +26,9 @@ struct inode {
   short minor;
   short nlink;
   uint size;
-  uint addrs[NDIRECT+1];
+  // 12 direct block and 256 indirect block 
+  // block number is 4 byte and a uint can represent 2^(32 / 4) = 256
+  uint addrs[NDIRECT+1];  
 };
 
 // map major device number to device functions.
